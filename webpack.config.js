@@ -1,5 +1,5 @@
 var webpack = require("webpack");
-
+var path = require('path');
 // module.exports = {
 //   entry: "./src/client/main.js",
 //   output: {
@@ -62,6 +62,11 @@ module.exports = {
     path: __dirname + "/src/public/build/",
     publicPath: "build/",
     filename: "bundle.js"
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'src/public/'),
+    compress: true,
+    port: 9000
   },
   watch: true,
   module: {
