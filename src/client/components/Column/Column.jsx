@@ -11,7 +11,7 @@ export default class Column extends React.Component {
         <p className="column_title">{this.props.title}</p>
         <button
           className="column_deleteButton"
-          onClick={() => console.log("delete")}
+          onClick={this.props.onDelete}
         >
           <i className="fas fa-trash"></i>
         </button>
