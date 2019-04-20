@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as dataBase from "../server/utils/DatabaseUtils";
-
+import cors from 'cors';
 import { serverPort } from "../etc/config.json";
 
 dataBase.setUpConnection();
@@ -9,6 +9,10 @@ dataBase.setUpConnection();
 const app = express();
 
 app.use(bodyParser.json());
+
+// Allow requests from any origin
+app.use(cors({ origin: '*' }));
+
 
 app.get("/columns", (request, response) => {
   dataBase.listColumns().then(data => response.send(data));
