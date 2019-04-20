@@ -20,5 +20,5 @@ export function createColumn(data) {
     return column.save();
 }
 export function deleteColumn(id) {
-    return Column.findById(id).remove();
+    return Column.findById(id).deleteOne();
 }
