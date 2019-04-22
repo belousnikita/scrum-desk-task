@@ -4,7 +4,7 @@
     background-color: rgb(235, 235, 235);
     border-radius: 5px;
     margin: 5px;
-    word-wrap: normal;
+    overflow-wrap: break-word;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     &:hover {
@@ -13,9 +13,19 @@
     z-index: 10;
 }
 .card_text {
-    margin: 5px;
+    margin:15px;
 }
 .card_date {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.card_date_time {
+    margin: 5px;
+    color: #818181;
+}
+.card_date_day {
     margin: 5px;
 }
 .card_deleteButton {
