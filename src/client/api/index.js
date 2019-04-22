@@ -8,10 +8,14 @@ export default {
     },
 
     createColumn(data) {
-        return axios.post(`${apiPrefix}/columns`, data);
+        return axios.post(`${apiPrefix}/columns`, { type: "column", ...data });
     },
 
     deleteColumn(columnId) {
         return axios.delete(`${apiPrefix}/columns/${columnId}`);
+    },
+
+    addTaskToColumn(columnId, data) {
+        return axios.post(`${apiPrefix}/columns`, { type: "task", id: columnId, ...data });
     }
 }
