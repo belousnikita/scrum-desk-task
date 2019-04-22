@@ -26,12 +26,14 @@ export default class Card extends React.Component {
           {this.props.message}
         </p>
         <div className="card_text">
-        <div className="card_date">
-          <p className="card_date_time">{`${hours}:${minutes}`}</p>
-          <p className="card_date_day"> {`${day.lenght < 2 ? `0${day}` : day}.${month.length < 2 ? `0${month}` : month}.${year}`}</p>
+          <div className="card_date">
+            <p className="card_date_time">
+            {`${hours.length < 2 ? `0${hours}` : hours}:${minutes.length < 2 ? `0${minutes}` : minutes}`}</p>
+            <p className="card_date_day"> 
+            {`${day.lenght < 2 ? `0${day}` : day}.${month.length < 2 ? `0${month}` : month}.${year}`}</p>
+          </div>
         </div>
       </div>
-      </div>    
     );
   }
 }
