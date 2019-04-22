@@ -3,6 +3,7 @@ import Constants from '../constants/AppConstants';
 
 import api from '../api';
 
+
 const ColumnsActions = {
     loadColumns() {
         AppDispatcher.dispatch({
@@ -10,39 +11,48 @@ const ColumnsActions = {
         });
 
         api.listColumns()
-        .then(({ data }) =>
-            AppDispatcher.dispatch({
-                type: Constants.LOAD_COLUMNS_SUCCESS,
-                columns: data
-            })
-        )
-        .catch(err =>
-            AppDispatcher.dispatch({
-                type: Constants.LOAD_COLUMNS_FAIL,
-                error: err
-            })
-        );
+            .then(({ data }) =>
+                AppDispatcher.dispatch({
+                    type: Constants.LOAD_COLUMNS_SUCCESS,
+                    columns: data
+                })
+            )
+            .catch(err =>
+                AppDispatcher.dispatch({
+                    type: Constants.LOAD_COLUMNS_FAIL,
+                    error: err
+                })
+            );
     },
 
     createColumn(column) {
         api.createColumn(column)
-        .then(() =>
-            this.loadColumns()
-        )
-        .catch(err =>
-            console.error(err)
-        );
+            .then(() =>
+                this.loadColumns()
+            )
+            .catch(err =>
+                console.error(err)
+            );
     },
 
     deleteColumn(columnId) {
         api.deleteColumn(columnId)
-        .then(() =>
-            this.loadColumns()
-        )
-        .catch(err =>
-            console.error(err)
-        );
-    }
+            .then(() =>
+                this.loadColumns()
+            )
+            .catch(err =>
+                console.error(err)
+            );
+    },
+    addTask(columnId, task) {
+        api.addTaskToColumn(columnId, task)
+            .then(
+                () => this.loadColumns()
+            )
+            .catch(
+                err => console.error(err)
+            );
+    },
 };
 
 export default ColumnsActions;
