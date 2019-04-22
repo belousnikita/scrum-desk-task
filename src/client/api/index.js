@@ -12,10 +12,14 @@ export default {
     },
 
     deleteColumn(columnId) {
-        return axios.delete(`${apiPrefix}/columns/${columnId}`);
+        return axios.delete(`${apiPrefix}/columns/${columnId}/${false}`);
     },
 
     addTaskToColumn(columnId, data) {
         return axios.post(`${apiPrefix}/columns`, { type: "task", id: columnId, ...data });
+    },
+    
+    deleteTask(columnId, taskId) {
+        return axios.delete(`${apiPrefix}/columns/${columnId}/${taskId}`, { type: "task",  columnId, taskId });
     }
 }
