@@ -23,16 +23,18 @@ export function createColumn(data) {
   })
   return column.save();
 }
-export function addTask(columnId, taskData) {
-  return Column.findByIdAndUpdate(columnId, {
-    $push: {
-      tasks: new Task({
-        message: taskData.message,
-        createdAt: taskData.date
-      }
-      )
-    }
-  });
+export async function addTask(columnId, taskData) {
+  const column = await Column.findById(columnId);
+  column.tasks.push(new Task({
+    message: taskData.message,
+    createdAt: taskData.date
+  }));
+  return column.save();
+}
+export async function deleteTask(columnId, taskId) {
+  const column = await Column.findById(columnId);
+  column.tasks.pull(taskId);
+  return column.save();
 }
 export function deleteColumn(id) {
   return Column.findById(id).deleteOne();
