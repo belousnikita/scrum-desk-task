@@ -14,9 +14,9 @@ import "./app.scss";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.getStateFromFlux());
     this.state = {
       basicColumnsCreated: false,
+      creatorFunction: null,
       isModal: false,
       modalText: "",
       prompt: "",
@@ -51,12 +51,13 @@ export default class App extends React.Component {
   componentDidUpdate() {
     const { basicColumnsCreated } = this.state;
     const { columns } = this.getStateFromFlux();
+    // If there is at least 1 column, basic columns won't be added
     if (columns.length > 0 && !basicColumnsCreated) {
       this.setState({ basicColumnsCreated: true });
       return;
     }
+    // If there isn't any column, create basic columns
     if (!basicColumnsCreated && columns.length === 0) {
-
       this.setState({ basicColumnsCreated: true }, () => {
         ColumnsActions.createColumn({ title: "To Do", tasks: [] });
         ColumnsActions.createColumn({ title: "In Progress", tasks: [] });
@@ -66,15 +67,22 @@ export default class App extends React.Component {
     }
   }
 
-  openModal(modalText, prompt) {
-    this.setState({ isModal: true, modalText, prompt });
+  createColumn(title) {
+    ColumnsActions.createColumn({ title, tasks: [] });
   }
-
+  addTask(columnId) {
+    return (message) => ColumnsActions.addTask(columnId, { message, date: new Date() });
+  }
+  // Open modal window
+  openModal(modalText, prompt, creatorFunction) {
+    this.setState({ isModal: true, modalText, prompt, creatorFunction });
+  }
+  // Close modal window 
   closeModal() {
     this.setState({ isModal: false });
   }
+  // Delete column by id
   deleteColumn(id) {
-    console.log(id);
     ColumnsActions.deleteColumn(id);
   }
   render() {
@@ -83,25 +91,26 @@ export default class App extends React.Component {
         <h2>Tasks</h2>
         <button
           className="addButton"
-          onClick={() => this.openModal("Add a new column...", "Column name")}
+          onClick={() => this.openModal("Add a new column...", "Column name", this.createColumn.bind(this))}
         >
           Add column
           <i className="fas fa-plus" />
         </button>
         <div className="container">
-          {this.state.columns.map((c, i) => (
+          {this.state.columns.map((c) => (
             <Column
-              key={i}
+              key={c.id}
               title={c.title}
               onDelete={() => this.deleteColumn(c.id)}
               onTaskAdd={() =>
                 this.openModal(
                   `Add a new task to the "${c.title}" column...`,
-                  "Text"
+                  "Task", 
+                  this.addTask(c.id).bind(this)
                 )
               }
             >
-              <Card />
+             {c.tasks.map(t => <Card key={t.id} message={t.message} createdAt={t.createdAt}/>)}
             </Column>
           ))}
         </div>
@@ -109,6 +118,7 @@ export default class App extends React.Component {
           <Modal
             text={this.state.modalText}
             prompt={this.state.prompt}
+            onSubmit={this.state.creatorFunction}
             onClose={this.closeModal.bind(this)}
           />
         )}
