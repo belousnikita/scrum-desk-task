@@ -18,7 +18,7 @@ export default class Card extends React.Component {
       <div className="card">
         <button
           className="card_deleteButton"
-          onClick={() => console.log("card delete")}
+          onClick={this.props.onDelete}
         >
           <i className="far fa-times-circle"></i>
         </button>
