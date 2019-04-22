@@ -53,6 +53,16 @@ const ColumnsActions = {
                 err => console.error(err)
             );
     },
+    deleteTask(columnId, taskId) {
+
+        api.deleteTask(columnId, taskId)
+            .then(
+                () => this.loadColumns()
+            )
+            .catch(
+                err => console.error(err)
+            );
+    },
 };
 
 export default ColumnsActions;
