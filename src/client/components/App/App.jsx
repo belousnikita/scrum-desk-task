@@ -85,6 +85,9 @@ export default class App extends React.Component {
   deleteColumn(id) {
     ColumnsActions.deleteColumn(id);
   }
+  deleteTask(columnId, taskId) {
+    ColumnsActions.deleteTask(columnId, taskId);
+  }
   render() {
     return (
       <div className="main">
@@ -110,7 +113,8 @@ export default class App extends React.Component {
                 )
               }
             >
-             {c.tasks.map(t => <Card key={t.id} message={t.message} createdAt={t.createdAt}/>)}
+             {c.tasks.map(t => <Card key={t._id} message={t.message} createdAt={t.createdAt}
+             onDelete={() => this.deleteTask(c.id, t._id)}/>)}
             </Column>
           ))}
         </div>
