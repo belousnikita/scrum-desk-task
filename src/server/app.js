@@ -18,8 +18,20 @@ app.get("/columns", (request, response) => {
   dataBase.listColumns().then(data => response.send(data));
 });
 
+
 app.post("/columns", (request, response) => {
-  dataBase.createColumn(request.body).then(data => response.send(data));
+  switch (request.body.type) {
+    case "column": {
+      dataBase.createColumn(request.body).then(data => response.send(data));
+      return;
+    }
+    case "task": {
+      dataBase.addTask(request.body.id, request.body).then(data => response.send(data));
+      return;
+    }
+    default: return;
+  }
+
 });
 
 app.delete("/columns/:id", (request, response) => {
