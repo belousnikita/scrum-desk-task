@@ -12,7 +12,7 @@ export default class Column extends React.Component {
         <button
           className="column_deleteButton"
           onClick={this.props.onDelete}
-        >
+        > 
           <i className="fas fa-trash"></i>
         </button>
         {this.props.children}
