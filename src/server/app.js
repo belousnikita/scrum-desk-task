@@ -34,8 +34,12 @@ app.post("/columns", (request, response) => {
 
 });
 
-app.delete("/columns/:id", (request, response) => {
-  dataBase.deleteColumn(request.params.id).then(data => response.send(data));
+app.delete("/columns/:id/:task", (request, response) => {
+  if (request.params.task !== "false") {
+    dataBase.deleteTask(request.params.id, request.params.task).then(data => response.send(data));
+  } else {
+    dataBase.deleteColumn(request.params.id).then(data => response.send(data));
+  }
 });
 
 const server = app.listen(serverPort, () =>
