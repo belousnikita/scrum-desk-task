@@ -5,11 +5,10 @@ import Card from "../Card/Card.jsx";
 import Modal from "../Modal/Modal.jsx";
 
 // Store and actions
-import ColumnsStore from '../../stores/ColumnsStore';
-import ColumnsActions from '../../actions/ColumnsActions';
+import ColumnsStore from "../../stores/ColumnsStore";
+import ColumnsActions from "../../actions/ColumnsActions";
 
 import "./app.scss";
-
 
 export default class App extends React.Component {
   constructor(props) {
@@ -45,7 +44,6 @@ export default class App extends React.Component {
   // Setting event listener for store changing
   componentDidMount() {
     ColumnsStore.addChangeListener(this.onStoreChange.bind(this));
-
   }
 
   componentDidUpdate() {
@@ -71,13 +69,14 @@ export default class App extends React.Component {
     ColumnsActions.createColumn({ title, tasks: [] });
   }
   addTask(columnId) {
-    return (message) => ColumnsActions.addTask(columnId, { message, date: new Date() });
+    return message =>
+      ColumnsActions.addTask(columnId, { message, date: new Date() });
   }
   // Open modal window
   openModal(modalText, prompt, creatorFunction) {
     this.setState({ isModal: true, modalText, prompt, creatorFunction });
   }
-  // Close modal window 
+  // Close modal window
   closeModal() {
     this.setState({ isModal: false });
   }
@@ -88,36 +87,66 @@ export default class App extends React.Component {
   deleteTask(columnId, taskId) {
     ColumnsActions.deleteTask(columnId, taskId);
   }
+  moveTask(task) {
+    const { message, createdAt } = task;
+    return (fromColumnId, toColumnId) => {
+      if (fromColumnId !== toColumnId) {
+        ColumnsActions.deleteTask(fromColumnId, task._id);
+        ColumnsActions.addTask(toColumnId, {
+          message,
+          date: new Date(createdAt)
+        });
+      }
+    };
+  }
   render() {
     return (
       <div className="main">
         <h2>Tasks</h2>
         <button
           className="addButton"
-          onClick={() => this.openModal("Add a new column...", "Column name", this.createColumn.bind(this))}
+          onClick={() =>
+            this.openModal(
+              "Add a new column...",
+              "Column name",
+              this.createColumn.bind(this)
+            )
+          }
         >
           Add column
           <i className="fas fa-plus" />
         </button>
+
         <div className="container">
-          {this.state.columns.map((c) => (
+          {this.state.columns.map(c => (
             <Column
               key={c.id}
+              id={c.id}
               title={c.title}
               onDelete={() => this.deleteColumn(c.id)}
               onTaskAdd={() =>
                 this.openModal(
                   `Add a new task to the "${c.title}" column...`,
-                  "Task", 
+                  "Task",
                   this.addTask(c.id).bind(this)
                 )
               }
             >
-             {c.tasks.map(t => <Card key={t._id} message={t.message} createdAt={t.createdAt}
-             onDelete={() => this.deleteTask(c.id, t._id)}/>)}
+              {c.tasks.map(t => (
+                <Card
+                  key={t._id}
+                  id={t._id}
+                  parentId={c.id}
+                  message={t.message}
+                  createdAt={t.createdAt}
+                  onDelete={() => this.deleteTask(c.id, t._id)}
+                  onMove={this.moveTask(t).bind(this)}
+                />
+              ))}
             </Column>
           ))}
         </div>
+
         {this.state.isModal && (
           <Modal
             text={this.state.modalText}
