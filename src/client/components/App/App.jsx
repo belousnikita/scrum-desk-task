@@ -84,9 +84,11 @@ export default class App extends React.Component {
   deleteColumn(id) {
     ColumnsActions.deleteColumn(id);
   }
+  // Delete task by id 
   deleteTask(columnId, taskId) {
     ColumnsActions.deleteTask(columnId, taskId);
   }
+  // Move task between columns
   moveTask(task) {
     const { message, createdAt } = task;
     return (fromColumnId, toColumnId) => {
