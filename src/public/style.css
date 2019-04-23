@@ -15,7 +15,7 @@ body {
     height: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background: rgb(30,87,153); /* Old browsers */
+    background: rgb(30,87,153);
 }
 
 #root {
