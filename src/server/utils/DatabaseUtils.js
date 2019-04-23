@@ -1,13 +1,16 @@
 import { model, connect } from "mongoose";
-import config from '../../etc/config.json';
+import config from "../../etc/config.json";
 import "../models/Column";
-import '../models/Task';
+import "../models/Task";
 
 const Column = model("Column");
 const Task = model("Task");
 
 export function setUpConnection() {
-  connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`, { useNewUrlParser: true });
+  connect(
+    `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,
+    { useNewUrlParser: true }
+  );
 }
 
 export function listColumns() {
@@ -20,15 +23,17 @@ export function createColumn(data) {
   const column = new Column({
     title: data.title,
     tasks: []
-  })
+  });
   return column.save();
 }
 export async function addTask(columnId, taskData) {
   const column = await Column.findById(columnId);
-  column.tasks.push(new Task({
-    message: taskData.message,
-    createdAt: taskData.date
-  }));
+  column.tasks.push(
+    new Task({
+      message: taskData.message,
+      createdAt: taskData.date
+    })
+  );
   return column.save();
 }
 export async function deleteTask(columnId, taskId) {
