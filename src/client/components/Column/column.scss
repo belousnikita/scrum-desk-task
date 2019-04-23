@@ -1,6 +1,11 @@
 .column {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     position: relative;
     margin: 20px;
     margin-left: 0;
@@ -9,7 +14,10 @@
     min-height: 170px;
     background-color: #dfdfdf;
     border-radius: 5px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
     &.active {
     background-color: #c2c2c2;
@@ -30,7 +38,8 @@
     margin-left: 10px;
     -webkit-appearance: none;
     width: auto;
-    align-self: flex-start;
+    -ms-flex-item-align: start;
+        align-self: flex-start;
     margin-bottom: 10px;
     margin-top: 10px;
     z-index: 1;
@@ -48,7 +57,8 @@
     margin-top: 15px;
     border: none;
     position: absolute;
-    align-self: flex-end;
+    -ms-flex-item-align: end;
+        align-self: flex-end;
     &:focus {
         outline: none !important;
     }
