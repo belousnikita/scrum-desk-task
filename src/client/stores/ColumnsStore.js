@@ -9,6 +9,7 @@ let _columns = [];
 let _loadingError = null;
 let _isLoading = true;
 
+// Auto format for column document 
 function formatColumn(column) {
   return {
     id: column._id,
@@ -17,28 +18,30 @@ function formatColumn(column) {
   };
 }
 
+// New store, extends from event emitter
 const ColumnsStore = Object.assign({}, EventEmitter.prototype, {
+  // Return is loading from db
   isLoading() {
     return _isLoading;
   },
-
+  // Return stored columns 
   getColumns() {
     return _columns;
   },
-
+  // Emit change
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
-
+  // Adding listener
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
-
+  // Removing listener
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
 });
-
+// Register change on flux dispatcher
 AppDispatcher.register(function(action) {
   switch (action.type) {
     case AppConstants.LOAD_COLUMNS_REQUEST: {
